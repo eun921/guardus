@@ -2,13 +2,12 @@ from django.db import models
 from django.conf import settings
 
 class Post(models.Model):
-    author=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author=models.ForeignKey(settings.AUTH_USER_MODEL, related_name='mypost_set',on_delete=models.CASCADE)
     title=models.CharField(max_length=100)
     content=models.TextField()
     address=models.CharField(max_length=100)
     image=models.ImageField(upload_to="%Y/%m/%d")
     tag_set=models.ManyToManyField('Tag')
-    comment_count=models.PositiveIntegerField(default=0)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 

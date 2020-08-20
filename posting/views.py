@@ -1,31 +1,29 @@
+from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 from .models import Post, Comment
-from .serializers import PostSerializer, DetailSerializer, CommentSerializer, CreateSerializer
-from rest_framework.decorators import api_view
-from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
+from .serializers import PostSerializer, CommentSerializer
 
-class PostViewSet(ListAPIView):
-    queryset=Post.objects.all()
-    serializer_class=PostSerializer
+class PostViewSet(ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
-class CommentViewSet(ListAPIView):
-    queryset=Comment.objects.all()
-    serializer_class=CommentSerializer
+post_list = PostViewSet.as_view({
+    'get': 'list',
+    'post': 'create',
+})
 
-class DetailViewSet(RetrieveAPIView):
-    lookup_field='pk'
-    queryset=Post.objects.all()
-    serializer_class=DetailSerializer
+post_detail = PostViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy',
+})
 
-class UpdateViewSet(UpdateAPIView):
-    lookup_field='pk'
-    queryset=Post.objects.all()
-    serializer_class=PostSerializer
+class CommentViewSet(ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
 
-class DeleteViewSet(DestroyAPIView):
-    lookup_field='pk'
-    queryset=Post.objects.all()
-    serializer_class=PostSerializer
-
-class CreateViewSet(CreateAPIView):
-    queryset=Post.objects.all()
-    serializer_class=CreateSerializer
+comment_list = CommentViewSet.as_view({
+    'get': 'list',
+    'post': 'create',
+})

@@ -17,19 +17,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from rest_framework import routers
-
 from posting import views
 
-router=routers.DefaultRouter()
-router.register('post',views.PostViewSet)
-router.register('comment',views.CommentViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('posting/', include('posting.urls')),
-    path('accounts/', include('accounts.urls')),
     path('', include('posting.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
 
 if settings.DEBUG:
