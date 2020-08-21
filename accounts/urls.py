@@ -1,11 +1,11 @@
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import path, include
-from . import views
+from django.urls import path, include, re_path
+from accounts import views
+from accounts.views import GuardusRegistrationView,ProfileView
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns=[
-#     path('login/',LoginView.as_view(template_name='accounts/login_form.html'), name='login'),
-#     path('logout/',LogoutView.as_view(next_page=''),name='logout'),
-#     path('profile/',views.profile, name='profile'),
-#     path('profile/edit/',views.profile_edit, name='profile_edit'),
-#     path('signup/',views.signup, name='signup'),
+    re_path(r'^rest-auth/',include('rest_auth.urls')),
+    re_path(r'^rest-auth/registration/', GuardusRegistrationView.as_view(), name="rest_guardus_register"),
+    path("profile/<int:pk>", views.ProfileView.as_view(), name="user_profile"),
+    path("edit/<int:pk>", views.ProfileView.as_view(), name="edit_user_profile"),
 ]

@@ -1,8 +1,8 @@
 from django.db import models
-from django.conf import settings
+import accounts.models
 
 class Post(models.Model):
-    author=models.ForeignKey(settings.AUTH_USER_MODEL, related_name='mypost_set',on_delete=models.CASCADE)
+    author=models.ForeignKey(accounts.models.User, related_name='mypost_set',on_delete=models.CASCADE)
     title=models.CharField(max_length=100)
     content=models.TextField()
     address=models.CharField(max_length=100)
@@ -12,7 +12,7 @@ class Post(models.Model):
     updated_at=models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
-    author=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author=models.ForeignKey(accounts.models.User, on_delete=models.CASCADE)
     post=models.ForeignKey('Post', related_name='comments', on_delete=models.CASCADE, blank=True)
     content=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
